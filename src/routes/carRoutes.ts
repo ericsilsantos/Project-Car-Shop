@@ -10,5 +10,6 @@ const carsService = new CarsService(carModel);
 const carControler = new CarControler(carsService);
 
 carRoute.post('/', (req, res) => carControler.create(req, res));
+carRoute.get('/', (req, res) => carControler.read(req, res));
 
 export default carRoute;
