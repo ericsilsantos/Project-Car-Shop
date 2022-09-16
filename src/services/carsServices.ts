@@ -1,4 +1,5 @@
 // import { model } from "mongoose";
+import { ErrorTypes } from '../errors/catalog';
 import { carSchema, ICar } from '../interfaces/ICar';
 import { IModel } from '../interfaces/IModel';
 import { IService } from '../interfaces/IService';
@@ -21,9 +22,10 @@ class CarsService implements IService<ICar> {
     return result;
   }
 
-  public async readOne(stg: string): Promise<ICar | null> {
-    const result = await this._car.readOne(stg);
-    // if(!result) {}
+  public async readOne(id: string): Promise<ICar | null> {
+    if (id.length !== 24) throw new Error(ErrorTypes.InvalidMongoId);
+    const result = await this._car.readOne(id);
+    if (!result) throw new Error(ErrorTypes.EntityNotFound);
     return result;
   }
 }
